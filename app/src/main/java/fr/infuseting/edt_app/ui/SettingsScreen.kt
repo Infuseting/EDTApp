@@ -26,7 +26,7 @@ fun SettingsScreen(navController: NavController, onDarkModeToggle: (Boolean) -> 
         TopAppBar(
             title = { Text("Settings") },
             navigationIcon = {
-                IconButton(onClick = { navController.navigate("home") }) {
+                IconButton(onClick = { navController.navigate("selectorContent") }) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
                         contentDescription = "Back"

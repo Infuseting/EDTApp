@@ -1,10 +1,11 @@
 package fr.infuseting.edt_app.util
 
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonElement
+import com.google.gson.JsonElement
 
-fun filterItems(query: String, items: List<JsonElement>): List<JsonElement> {
-    if (query.isEmpty()) return items
-    val upperQuery = query.uppercase()
-    return items.filter { it.toString().uppercase().contains(upperQuery) }
+
+fun filterItems(query: String, items: String): Boolean {
+    if (query.isEmpty()) return true
+    val upperQuery = query.uppercase().split(" ")
+    val upperItems = items.uppercase().split(" ")
+    return upperQuery.all { word -> upperItems.any { it.contains(word) } }
 }
