@@ -33,7 +33,6 @@ fun SelectorContent(navController: NavController, context: Context, paddingValue
     var salleItems by remember { mutableStateOf<List<JsonElement>?>(null) }
     var profItems by remember { mutableStateOf<List<JsonElement>?>(null) }
     var univItems by remember { mutableStateOf<List<JsonElement>?>(null) }
-
     LaunchedEffect(Unit) {
         chooserJson(context, RequestType.SALLE) { items -> salleItems = items }
         chooserJson(context, RequestType.PROF) { items -> profItems = items }
@@ -55,11 +54,7 @@ fun SelectorContent(navController: NavController, context: Context, paddingValue
         Spacer(modifier = Modifier.height(16.dp))
         SearchBar(searchQuery)
         Spacer(modifier = Modifier.height(16.dp))
-        LaunchedEffect(salleItems, profItems, univItems) {
-            Log.d("MainContent", "SalleItems: $salleItems")
-            Log.d("MainContent", "ProfItems: $profItems")
-            Log.d("MainContent", "UnivItems: $univItems")
-        }
+
         var update = remember { mutableStateOf(false) }
         LazyColumn {
             item{
@@ -77,7 +72,6 @@ fun SelectorContent(navController: NavController, context: Context, paddingValue
             }
             item {
                 salleItems?.forEach { salleItem ->
-
                     DropdownMenu(
                         searchQuery,
                         context,

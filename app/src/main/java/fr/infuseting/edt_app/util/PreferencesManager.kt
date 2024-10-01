@@ -9,6 +9,9 @@ object PreferencesManager {
     private const val SETTINGS_PREFS_NAME = "settings_prefs"
     private const val FAV_PREFS_NAME = "fav_prefs"
     private const val DARK_MODE_KEY = "dark_mode"
+    private const val START_TIME_NOTIFICATION = "start_time_notification"
+    private const val END_TIME_NOTIFICATION = "end_time_notification"
+    private const val REQUEST_PER_MINUTE = "auto_request_per_minute"
     private const val NOTIFICATION_DELAY_KEY = "notification_delay"
 
     private fun getPreferences(context: Context): SharedPreferences {
@@ -29,13 +32,32 @@ object PreferencesManager {
             null
         }
     }
+    fun setRequestPerMinute(context: Context, value: Int) {
+        getPreferences(context).edit().putInt(REQUEST_PER_MINUTE, value).apply()
+    }
+    fun getRequestPerMinute(context: Context): Int {
+        return getPreferences(context).getInt(REQUEST_PER_MINUTE, 15)
+    }
+    fun setStartTime(context: Context, time: Int) {
+        getPreferences(context).edit().putInt(START_TIME_NOTIFICATION, time).apply()
+    }
+    fun getStartTime(context: Context): Int {
+        return getPreferences(context).getInt(START_TIME_NOTIFICATION, 7)
+    }
+    fun setEndTime(context: Context, time: Int) {
+        getPreferences(context).edit().putInt(END_TIME_NOTIFICATION, time).apply()
+    }
+    fun getEndTime(context: Context): Int {
+        return getPreferences(context).getInt(END_TIME_NOTIFICATION, 23)
+    }
+
 
     fun setNotificationDelay(context: Context, delay: Int) {
         getPreferences(context).edit().putInt(NOTIFICATION_DELAY_KEY, delay).apply()
     }
 
     fun getNotificationDelay(context: Context): Int {
-        return getPreferences(context).getInt(NOTIFICATION_DELAY_KEY, 1)
+        return getPreferences(context).getInt(NOTIFICATION_DELAY_KEY, 7)
     }
     fun getFav(context : Context, key : String) : String? {
         return getFavContext(context).getString(key, null)

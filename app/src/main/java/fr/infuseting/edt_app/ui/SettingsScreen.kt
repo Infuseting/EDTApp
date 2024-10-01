@@ -68,6 +68,35 @@ fun SettingsScreen(navController: NavController, onDarkModeToggle: (Boolean) -> 
             text = "Maximum: $notificationDelay day(s)\nThis parameter corresponds to the maximum number of days you can receive a notification in case of a course change.",
             modifier = Modifier.padding(vertical = 8.dp)
         )
+        var rangeTime by remember { mutableStateOf(PreferencesManager.getStartTime(context).toFloat()..PreferencesManager.getEndTime(context).toFloat()) }
+
+        Text(text = "Define Start and End time for notifications")
+        Text(text = "Average data consumption per month : ${(31.0*((PreferencesManager.getEndTime(context)-PreferencesManager.getStartTime(context))/(PreferencesManager.getRequestPerMinute(context)/60.0))).toInt()}KB")
+        Text(text = "Notification start and end : ${rangeTime.start.toInt()}h - ${rangeTime.endInclusive.toInt()}h")
+        RangeSlider(
+            value = rangeTime,
+            onValueChange = { range ->
+                rangeTime = range
+                PreferencesManager.setStartTime(context, range.start.toInt())
+                PreferencesManager.setEndTime(context, range.endInclusive.toInt())
+            },
+            valueRange = 0f..24f,
+            steps = 23
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text("Time between two request in minute")
+
+        var requestPerMinute by remember { mutableStateOf(PreferencesManager.getRequestPerMinute(context)) }
+        Text("Time : ${requestPerMinute.toInt()} minute")
+        Slider(
+            value = requestPerMinute.toFloat(),
+            onValueChange = {
+                requestPerMinute = it.toInt()
+                PreferencesManager.setRequestPerMinute(context, requestPerMinute)
+            },
+            valueRange = 1f..240f,
+            steps = 15
+        )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = "Visit infuseting.github.io",
