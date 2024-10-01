@@ -125,11 +125,18 @@ fun AgendaContent(navController: NavController, context: Context, paddingValues:
                                 ) {
                                     Text(
                                         text = if (i == 0) "Aujourd'hui" else dayName,
+                                        modifier = Modifier.fillMaxWidth(),
                                         textAlign = TextAlign.Center,
+                                        color = Color.Black,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Bold
                                     )
                                     Text(
                                         text = formattedDate,
+                                        modifier = Modifier.fillMaxWidth(),
                                         textAlign = TextAlign.Center,
+                                        color = Color.Black,
+                                        fontSize = 18.sp,
                                     )
                                 }
                                 var timeLast = Calendar.getInstance().apply {
