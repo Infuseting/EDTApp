@@ -107,5 +107,15 @@ fun SettingsScreen(navController: NavController, onDarkModeToggle: (Boolean) -> 
                 }
                 .padding(vertical = 8.dp)
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = "Thanks to Antonin Huaut for their help",
+            modifier = Modifier
+                .clickable {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://antoninhuaut.fr/"))
+                    navController.context.startActivity(intent)
+                }
+                .padding(vertical = 8.dp)
+        )
     }
 }

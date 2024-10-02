@@ -1,26 +1,19 @@
 package fr.infuseting.edt_app.util
 
 import android.util.Log
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import org.threeten.bp.format.DateTimeFormatter
-import java.time.LocalDate
 
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import java.util.TimeZone
 
+
+var size = 1.5F
+fun formatDateFromTimestamp(timestamp: Long?): String {
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    val date = Date(timestamp?.times(1000L) ?: 0) // Convert seconds to milliseconds
+    return sdf.format(date).toString()
+}
 fun daySplitting(response: String, actualDay: String): MutableList<MutableList<Map<String, String>>> {
 
     val list = List(16) { mutableListOf<Map<String, String>>() }
@@ -40,11 +33,15 @@ fun daySplitting(response: String, actualDay: String): MutableList<MutableList<M
         if (index == 0) continue // Skip the first split part if it's not an event
         val eventData = parseEventData(value)
         val startTimeDay = dateFormat.format(SimpleDateFormat("yyyyMMdd'T'HHmmss", Locale.getDefault()).parse(eventData["DTSTART"]!!)!!)
-        list[timeDay[startTimeDay]!!].add(eventData)
+        if (timeDay[startTimeDay] != null) {
+            list[timeDay[startTimeDay]!!].add(eventData)
+        }
+
     }
     for (i in 0 until 16) {
         list[i].sortWith(compareBy({ it["DTSTART"] }))
     }
+
     return list.toMutableList()
 }
 fun parseTime(times: String): String {
@@ -79,7 +76,7 @@ fun heightCalc(event: Map<String, String>): Int {
     val startTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(parseTime(event["DTSTART"]!!))!!
     val endTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(parseTime(event["DTEND"]!!))!!
     val duration = ((endTime.time - startTime.time) / (1000 * 60)).toInt()
-    return (duration * 2F).toInt()
+    return (duration * size).toInt()
 }
 
 fun topCalc(event: Map<String, String>, i: Date): Pair<Int, Date> {
@@ -98,8 +95,8 @@ fun topCalc(event: Map<String, String>, i: Date): Pair<Int, Date> {
     val minuteLastCoursEnd = calendarLastCoursEnd.get(Calendar.MINUTE)
     Log.d("hour", hour.toString() + " " + minute.toString())
     Log.d("hourLastCoursEnd", hourLastCoursEnd.toString() + " " + minuteLastCoursEnd.toString())
-    val difEndStart = ((hourLastCoursEnd * 60 + minuteLastCoursEnd) * 2F).toInt()
-    val paddingTop = ((hour * 60 + minute) * 2F).toInt()
+    val difEndStart = ((hourLastCoursEnd * 60 + minuteLastCoursEnd) * size).toInt()
+    val paddingTop = ((hour * 60 + minute) * size).toInt()
     Log.d("paddingTop", paddingTop.toString())
     Log.d("difEndStart", difEndStart.toString())
     val newI = SimpleDateFormat("yyyyMMdd'T'HHmmss", Locale.getDefault()).parse(event["DTEND"]!!)!!

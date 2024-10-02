@@ -8,17 +8,27 @@ import com.google.gson.JsonObject
 object PreferencesManager {
     private const val SETTINGS_PREFS_NAME = "settings_prefs"
     private const val FAV_PREFS_NAME = "fav_prefs"
+    private const val UPDATE_PREFS_NAME = "update_prefs"
+    private const val LAST_UPDATE_PREFS_NAME = "last_update_prefs"
     private const val DARK_MODE_KEY = "dark_mode"
     private const val START_TIME_NOTIFICATION = "start_time_notification"
     private const val END_TIME_NOTIFICATION = "end_time_notification"
     private const val REQUEST_PER_MINUTE = "auto_request_per_minute"
     private const val NOTIFICATION_DELAY_KEY = "notification_delay"
+    private const val LAST_UPDATE_COURS = "last_update_cours"
+    private const val STRING_COURS = "string_cours"
 
     private fun getPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(SETTINGS_PREFS_NAME, Context.MODE_PRIVATE)
     }
     private fun getFavContext(context: Context): SharedPreferences {
         return context.getSharedPreferences(FAV_PREFS_NAME, Context.MODE_PRIVATE)
+    }
+    private fun getUpdateContext(context: Context): SharedPreferences {
+        return context.getSharedPreferences(UPDATE_PREFS_NAME, Context.MODE_PRIVATE)
+    }
+    private fun getLastUpdateContext(context: Context): SharedPreferences {
+        return context.getSharedPreferences(LAST_UPDATE_PREFS_NAME, Context.MODE_PRIVATE)
     }
 
     fun setDarkModeEnabled(context: Context, isEnabled: Boolean) {
@@ -72,5 +82,34 @@ object PreferencesManager {
 
         return getFavContext(context).all.keys.toList()
     }
+
+
+    fun getLastUpdate(context : Context, key : String) : Long? {
+        return getLastUpdateContext(context).getLong(key, 0)
+    }
+    fun setLastUpdate(context: Context, key: String, item : Long) {
+        getLastUpdateContext(context).edit().putLong(key, item).apply()
+    }
+    fun removeLastUpdate(context: Context, key: String) {
+        getLastUpdateContext(context).edit().remove(key).apply()
+    }
+    fun getLastUpdateList(context: Context) : List<String> {
+
+        return getLastUpdateContext(context).all.keys.toList()
+    }
+    fun getStringCours(context : Context, key : String) : String? {
+        return getUpdateContext(context).getString(key, null)
+    }
+    fun setStringCours(context: Context, key: String, item : String) {
+        getUpdateContext(context).edit().putString(key, item).apply()
+    }
+    fun removeStringCours(context: Context, key: String) {
+        getUpdateContext(context).edit().remove(key).apply()
+    }
+    fun getStringCoursList(context: Context) : List<String> {
+
+        return getUpdateContext(context).all.keys.toList()
+    }
+
 
 }

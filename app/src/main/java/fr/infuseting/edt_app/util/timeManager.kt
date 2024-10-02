@@ -25,6 +25,6 @@ fun compareTimestamps(timestamp1: String, timestamp2: String): Int {
     Log.d("timestamp1", timestamp1)
     Log.d("timestamp2", timestamp2)
     val time1 = parseTimestampISO(timestamp1)
-    val time2 = parseTimestampRQST(timestamp2) as org.threeten.bp.chrono.ChronoLocalDateTime<*>
+    val time2 = parseTimestampRQST(timestamp2)
     return time1.compareTo(time2)
 }
